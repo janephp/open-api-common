@@ -6,7 +6,6 @@ use Jane\Component\JsonSchema\Generator\Context\Context;
 use Jane\Component\JsonSchema\Generator\Normalizer\NormalizerGenerator as JsonSchemaNormalizerGenerator;
 use Jane\Component\JsonSchema\Guesser\Guess\ClassGuess;
 use Jane\Component\OpenApiCommon\Guesser\Guess\ParentClass;
-use PhpParser\Modifiers;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
@@ -44,9 +43,9 @@ trait NormalizerGenerator
                                 ),
                                 'normalize',
                                 [
-                                    $objectVar,
-                                    new Expr\Variable('format'),
-                                    new Expr\Variable('context'),
+                                    new Arg($objectVar),
+                                    new Arg(new Expr\Variable('format')),
+                                    new Arg(new Expr\Variable('context')),
                                 ]
                             )),
                         ],
@@ -72,7 +71,7 @@ trait NormalizerGenerator
         };
 
         return new Stmt\ClassMethod('supportsNormalization', [
-            'type' => Modifiers::PUBLIC,
+            'type' => Stmt\Class_::MODIFIER_PUBLIC,
             'returnType' => new Identifier('bool'),
             'params' => [
                 new Param(new Expr\Variable('data'), type: new Identifier('mixed')),
