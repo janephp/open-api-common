@@ -6,7 +6,10 @@ use Jane\Component\JsonSchema\Generator\Context\Context;
 use Jane\Component\JsonSchema\Generator\Normalizer\NormalizerGenerator as JsonSchemaNormalizerGenerator;
 use Jane\Component\JsonSchema\Guesser\Guess\ClassGuess;
 use Jane\Component\OpenApiCommon\Guesser\Guess\ParentClass;
+use PhpParser\Modifiers;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Scalar;
@@ -63,23 +66,23 @@ trait NormalizerGenerator
     {
         $exprTestClassFunction = function ($class) {
             return new Expr\BinaryOp\Identical(
-                new Expr\FuncCall(new Name('get_class'), [new Expr\Variable('data')]),
+                new Expr\FuncCall(new Name('get_class'), [new Arg(new Expr\Variable('data'))]),
                 new Scalar\String_($class)
             );
         };
 
         return new Stmt\ClassMethod('supportsNormalization', [
-            'type' => Stmt\Class_::MODIFIER_PUBLIC,
-            'returnType' => 'bool',
+            'type' => Modifiers::PUBLIC,
+            'returnType' => new Identifier('bool'),
             'params' => [
-                new Param(new Expr\Variable('data'), type: 'mixed'),
-                new Param(new Expr\Variable('format'), new Expr\ConstFetch(new Name('null')), 'string'),
-                new Param(new Expr\Variable('context'), new Expr\Array_(), 'array'),
+                new Param(new Expr\Variable('data'), type: new Identifier('mixed')),
+                new Param(new Expr\Variable('format'), new Expr\ConstFetch(new Name('null')), new Identifier('string')),
+                new Param(new Expr\Variable('context'), new Expr\Array_(), new Identifier('array')),
             ],
             'stmts' => [
                 new Stmt\Return_(
                     new Expr\BinaryOp\BooleanAnd(
-                        new Expr\FuncCall(new Name('is_object'), [new Expr\Variable('data')]),
+                        new Expr\FuncCall(new Name('is_object'), [new Arg(new Expr\Variable('data'))]),
                         $exprTestClassFunction($modelFqdn)
                     )
                 ),

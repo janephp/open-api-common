@@ -105,7 +105,7 @@ EOD
             $methodName = 'get' . ucfirst($propertyName);
             $exception = new Stmt\Namespace_(new Name($schema->getNamespace() . '\\Exception'), [
                 new Stmt\Class_(
-                    new Name($exceptionName),
+                    $exceptionName,
                     [
                         'extends' => new Name($highLevelExceptionName),
                         'stmts' => [
@@ -180,7 +180,7 @@ EOD
 
         $exception = new Stmt\Namespace_(new Name($schema->getNamespace() . '\\Exception'), [
             new Stmt\Class_(
-                new Name($exceptionName),
+                $exceptionName,
                 [
                     'extends' => new Name($highLevelExceptionName),
                     'stmts' => [
@@ -244,7 +244,7 @@ EOD
 
         $apiException = new Stmt\Namespace_(new Name($schema->getNamespace() . '\\Exception'), [
             new Stmt\Interface_(
-                new Name('ApiException'),
+                'ApiException',
                 [
                     'extends' => [
                         new Name('\\Throwable'),
@@ -255,7 +255,7 @@ EOD
 
         $clientException = new Stmt\Namespace_(new Name($schema->getNamespace() . '\\Exception'), [
             new Stmt\Interface_(
-                new Name('ClientException'),
+                'ClientException',
                 [
                     'extends' => [
                         new Name('ApiException'),
@@ -266,7 +266,7 @@ EOD
 
         $serverException = new Stmt\Namespace_(new Name($schema->getNamespace() . '\\Exception'), [
             new Stmt\Interface_(
-                new Name('ServerException'),
+                'ServerException',
                 [
                     'extends' => [
                         new Name('ApiException'),
@@ -282,7 +282,7 @@ EOD
         if ($registry->getThrowUnexpectedStatusCode()) {
             $unexpectedStatusCodeException = new Stmt\Namespace_(new Name($schema->getNamespace() . '\\Exception'), [
                 new Stmt\Class_(
-                    new Name('UnexpectedStatusCodeException'),
+                    'UnexpectedStatusCodeException',
                     [
                         'implements' => [
                             new Name('ClientException'),
@@ -325,7 +325,7 @@ EOD
 
         $highLevelException = new Stmt\Namespace_(new Name($schema->getNamespace() . '\\Exception'), [
             new Stmt\Class_(
-                new Name($highLevelExceptionName),
+                $highLevelExceptionName,
                 [
                     'extends' => new Name('\\RuntimeException'),
                     'implements' => [new Name($code >= 500 ? 'ServerException' : 'ClientException')],

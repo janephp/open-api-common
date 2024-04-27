@@ -39,8 +39,8 @@ trait ClientGenerator
     {
         $params = [
             new Node\Param(new Expr\Variable('httpClient'), new Expr\ConstFetch(new Name('null'))),
-            new Node\Param(new Expr\Variable('additionalPlugins'), new Expr\Array_(), 'array'),
-            new Node\Param(new Expr\Variable('additionalNormalizers'), new Expr\Array_(), 'array'),
+            new Node\Param(new Expr\Variable('additionalPlugins'), new Expr\Array_(), new Node\Identifier('array')),
+            new Node\Param(new Expr\Variable('additionalNormalizers'), new Expr\Array_(), new Node\Identifier('array')),
         ];
 
         return new Stmt\ClassMethod(
