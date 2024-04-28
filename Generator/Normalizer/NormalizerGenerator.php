@@ -63,13 +63,6 @@ trait NormalizerGenerator
      */
     protected function createSupportsNormalizationMethod(string $modelFqdn, bool $symfony7): Stmt\ClassMethod
     {
-        $exprTestClassFunction = function ($class) {
-            return new Expr\BinaryOp\Identical(
-                new Expr\FuncCall(new Name('get_class'), [new Arg(new Expr\Variable('data'))]),
-                new Scalar\String_($class)
-            );
-        };
-
         return new Stmt\ClassMethod('supportsNormalization', [
             'type' => Stmt\Class_::MODIFIER_PUBLIC,
             'returnType' => new Identifier('bool'),
@@ -82,7 +75,10 @@ trait NormalizerGenerator
                 new Stmt\Return_(
                     new Expr\BinaryOp\BooleanAnd(
                         new Expr\FuncCall(new Name('is_object'), [new Arg(new Expr\Variable('data'))]),
-                        $exprTestClassFunction($modelFqdn)
+                        new Expr\BinaryOp\Identical(
+                            new Expr\FuncCall(new Name('get_class'), [new Arg(new Expr\Variable('data'))]),
+                            new Expr\ClassConstFetch(new Name($modelFqdn), new Identifier('class'))
+                        )
                     )
                 ),
             ],
