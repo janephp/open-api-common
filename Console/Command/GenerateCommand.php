@@ -26,7 +26,7 @@ class GenerateCommand extends BaseGenerateCommand
         $this->matcher = $matcher;
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('generate');
         $this->setDescription('Generate an api client: class, normalizers and resources given a specific Json OpenApi file');

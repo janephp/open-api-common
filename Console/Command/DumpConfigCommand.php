@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class DumpConfigCommand extends BaseDumpConfigCommand
 {
-    public function configure()
+    public function configure(): void
     {
         $this->setName('dump-config');
         $this->setDescription('Dump Jane OpenAPI configuration for debugging purpose');
